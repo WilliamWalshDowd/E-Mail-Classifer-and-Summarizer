@@ -1,0 +1,13 @@
+{
+    "testdata": [
+        {
+            "raw": "Sent: 12 June 2023 11:52 From: test; To: test; ; Cc: Subject: Education Verification Request John Cena 12345678 Number of Attachments: 2 Dear Sir/Madam, My name is Dan Anthony and I work for First Advantage who conducts background screening globally. I am trying to verify the education history for John Cena Please find the education questionnaire attached with the information provided, that I am trying to verify. I have also attached a signed letter of consent to release this information. Please complete and return this via email or fax at your earliest convenience. Email: test Phone: 44444444444 Ext. 4444 Fax: +44 (0) 4444 444 444 Thank you for your time Regards Dan Paty SR#:1-122334466 First Advantage "
+        },
+        {
+            "raw": "Sent: 12 June 2023 10:52 From: test; To: test; ; Cc: Subject: Attendance certificate 2022/2023– Jack Bum– University of Strats Number of Attachments: 1 Dear partner, In the absence of official stamp from your institution, we need you to confirm the information on the attendance certificate attached from the exchange student Barny Janice. Please, let us know that everything is correct by email to test Best regards, July Loise -- Service des attestations de mobilité <test> Direction des Relations Internationales Maison universitaire internationale 11 FR-67000 STRASBOURG"
+        },
+        {
+            "raw": "Sent: 11 June 2023 20:07 From: test; To: test; ; Cc:  Subject: Degree translation  Number of Attachments: 0 Hi, I was in contact recently about getting my degree translated into English however there was an error in it (it said Bachelor in Arts instead of Bachelor of Education). I was wondering if this could be changed and sent back to me as I need this for a job abroad. Thanks for your help! Details are below! I graduated from the B.Ed in Mario IE in November 2022. Name: Katie Walsh DOB: 19.10.1998 Course: bachelor of education StArt date: October 2017 End date: June 2022 Graduated: November 2022 Address:  springfeild, Rathfarnham, Dublin -3 Kind regards, Katie"
+        }
+    ]
+}
