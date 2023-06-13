@@ -1,10 +1,12 @@
 import json
 import nltk
+import spacy
+from spacy import displacy
 from nameparser.parser import HumanName
 from transformers import pipeline
 
 INPUT = ""
-LABELS = ['education verification', 'translation request', 'other']
+LABELS = ['education verification', 'translation request', 'payments or fees', 'other']
 
 #---------- test data loader--------------------------
 file = open('testdata.json')
@@ -52,6 +54,23 @@ def get_human_names(text):
     return (person_list)
 #--------------------------------------------------------------------------------------------------------------
 
+#------------------------------------------- document output --------------------------------------------------
+def print_entities(pipeline, text):
+    # Create a document 
+    document = pipeline(text)
+    # Entity text & label extraction
+    for entity in document.ents:
+        print(entity.text + '->', entity.label_)
+        
+def visualize_entities(pipeline, text):
+    # Create a document 
+    document = pipeline(text)
+    # Show entities in pretty manner
+    #displacy.serve(document, style='ent')
+
+roberta_nlp = spacy.load("en_core_web_trf")
+#--------------------------------------------------------------------------------------------------------------
+
 #--------------------------------outputs-----------------------------------------------------------------------
 print("----------------raw---------------------")
 print(INPUT)
@@ -68,4 +87,7 @@ print("LAST, FIRST")
 for name in names: 
     last_first = HumanName(name).last + ', ' + HumanName(name).first
     print(last_first)
+print("----------------entitys-----------------")
+print_entities(roberta_nlp, INPUT)
+visualize_entities(roberta_nlp, INPUT)
 #--------------------------------------------------------------------------------------------------------------
