@@ -1,4 +1,5 @@
 import json
+import webbrowser
 import nltk
 import spacy
 from spacy import displacy
@@ -6,18 +7,24 @@ from nameparser.parser import HumanName
 from transformers import pipeline
 
 INPUT = ""
-LABELS = ['education verification', 'translation request', 'payments or fees', 'other']
+LABELS = ['education verification', 'translation request', 'payments or fees', 'Start Dates', 'Replace ID Card', 'ID Card First Issue', 'other']
 
 #---------- test data loader--------------------------
 file = open('testdata.json')
 data = json.load(file)
-INPUT = data['testdata'][2]['raw']
+INPUT = data['testdata'][5]['raw']
+#-----------------------------------------------------
+
+#----------template loader--------------------------
+templatefile = open('templateOutputs.json')
+templatedata = json.load(templatefile)
+Templates = templatedata['Templates']
 #-----------------------------------------------------
 
 #-------------------------------------------- text simplifier --------------------------------------------------
 def get_summary(text):    
     summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-    summarisedText = summarizer(text, max_length=130, min_length=30, do_sample=False)[0]['summary_text']
+    summarisedText = summarizer(text, max_length=200, min_length=20, do_sample=False)[0]['summary_text']
     return summarisedText
 #---------------------------------------------------------------------------------------------------------------
 
@@ -55,20 +62,19 @@ def get_human_names(text):
 #--------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------- document output --------------------------------------------------
-def print_entities(pipeline, text):
+def getEntities(text):
+    roberta_nlp = spacy.load("en_core_web_trf")
     # Create a document 
-    document = pipeline(text)
+    document = roberta_nlp(text)
     # Entity text & label extraction
-    for entity in document.ents:
-        print(entity.text + '->', entity.label_)
+    return document.ents
         
-def visualize_entities(pipeline, text):
+def visualize_entities(text):
+    roberta_nlp = spacy.load("en_core_web_trf")
     # Create a document 
-    document = pipeline(text)
+    document = roberta_nlp(text)
     # Show entities in pretty manner
-    #displacy.serve(document, style='ent')
-
-roberta_nlp = spacy.load("en_core_web_trf")
+    displacy.serve(document, style='ent')
 #--------------------------------------------------------------------------------------------------------------
 
 #--------------------------------outputs-----------------------------------------------------------------------
@@ -88,6 +94,46 @@ for name in names:
     last_first = HumanName(name).last + ', ' + HumanName(name).first
     print(last_first)
 print("----------------entitys-----------------")
-print_entities(roberta_nlp, INPUT)
-visualize_entities(roberta_nlp, INPUT)
+entites = getEntities(INPUT)
+for entity in entites:
+    print(entity.text + '->', entity.label_)
+#visualize_entities(INPUT)
+#--------------------------------------------------------------------------------------------------------------
+
+#-----------------------------------e-mail response creator----------------------------------------------------
+print("----------------email data-------------------")
+top_topic = topics[0]
+print( "Most likley topic" + top_topic)
+def switch(topic_val):
+    if "education verification" in topic_val:
+        return Templates[0]['education verification']
+    elif "translation request" in topic_val:
+        return Templates[0]['translation request']
+    elif "Start Dates" in topic_val:
+        return Templates[0]['Start Dates']
+    elif "Replace ID Card" in topic_val:
+        return Templates[0]['Replace ID Card']
+    elif "ID Card First Issue" in topic_val:
+        return Templates[0]['ID Card First Issue']
+    elif "other" in topic_val:
+        return Templates[0]['other']
+    else: return "none"
+
+chosenTemplate = switch(top_topic)
+print(chosenTemplate)
+
+# add names to top and bottom
+MostLikelySenderName = str(entites[-1])
+returnName = "William"
+
+chosenTemplate = chosenTemplate.replace("(RECIPIENT NAME)", MostLikelySenderName)
+chosenTemplate = chosenTemplate.replace("(SENDER NAME)", returnName)
+
+f = open('htmlOutput.html', 'w')
+html = chosenTemplate
+
+f.write(html)
+f.close()
+
+webbrowser.open('htmlOutput.html')
 #--------------------------------------------------------------------------------------------------------------
