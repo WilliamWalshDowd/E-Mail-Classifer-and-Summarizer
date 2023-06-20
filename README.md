@@ -30,3 +30,10 @@ These can be changed or added to and will work perfectly with no other informati
 ### Spacy highlighting output:
 ![Screenshot 2023-06-19 102806](https://github.com/WilliamWalshDowd/e-mail-Classifer-and-Summarizer/assets/99445178/ee549b57-af98-478c-bf08-cb7666a26287)
 
+## Email Generating
+Emails can also be generaed from templates to answer questions with a single answer and no varition. for example the start dates have a generic answer.
+![Screenshot 2023-06-20 094229](https://github.com/WilliamWalshDowd/e-mail-Classifer-and-Summarizer/assets/99445178/72932464-5818-4dac-8adb-29c2902ed138)
+### HTML
+since its a html template it can be formaated in a single line string using tags. this allows a for a nice output when moving o an email envirnment like so.
+![Screenshot 2023-06-20 093911](https://github.com/WilliamWalshDowd/e-mail-Classifer-and-Summarizer/assets/99445178/daa58790-28aa-487f-ae2d-7d170e65a005)
+
